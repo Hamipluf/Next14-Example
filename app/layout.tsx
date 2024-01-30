@@ -11,6 +11,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className={`${monsterrat.className} antialiased`}>{children}</div>
+        <footer className="flex items-center justify-center py-10">
+          Ejemplo hecho con ❤💗
+        </footer>
       </body>
     </html>
   );

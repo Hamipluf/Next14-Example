@@ -1,8 +1,13 @@
+'use client'
+// Como el pathname es un concepto que solo se maneja en el lado del cliente para poder usarlo tenemos que renderizar del lado del cliente,
+// ya que por defecto se ejecuta en el server y se hydrata en el cliente
 import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -16,22 +21,28 @@ const links = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
-export default function NavLinks() {
+const NavLinks = () => {
+  const pathname = usePathname();
   return (
     <>
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
-          <a
+          // Usamos el comonente <Link> para evitar que se recargue toda la pagina y solo navege entre los componentes
+          <Link
             key={link.name}
             href={link.href}
-            className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+            className={`flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3
+            ${pathname === link.href && 'bg-sky-100 text-blue-500' }
+            `}
           >
             <LinkIcon className="w-6" />
             <p className="hidden md:block">{link.name}</p>
-          </a>
+          </Link>
         );
       })}
     </>
   );
-}
+};
+
+export default NavLinks;
